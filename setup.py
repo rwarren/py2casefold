@@ -13,7 +13,7 @@ with codecs.open('README.rst', encoding='utf-8') as f:
 main_pkg = "py2casefold"
 setup(
     name=main_pkg,
-    version=open("VERSION", "r").read().strip(),
+    version=open(main_pkg + "/VERSION", "r").read().strip(),
     description="Unicode casefold support for python 2.",
     long_description=long_description,
     url='https://github.com/rwarren/py2casefold',
@@ -33,10 +33,14 @@ setup(
         "Operating System :: OS Independent",
     ],
     keywords='unicode casefold',
-    packages=[], # no sub-packages... just one function, really!
+    packages=[main_pkg, ],
     install_requires = [],
-    package_data={},
-    py_modules=["py2casefold", ],
-    data_files=["VERSION", "LICENSE", "CaseFolding.txt"],
+    package_data={main_pkg: ["VERSION",
+                             "LICENSE",
+                             "CaseFolding.txt",
+                             ],
+                  },
+    py_modules=[],
+    data_files=[],
     entry_points={},
 )
