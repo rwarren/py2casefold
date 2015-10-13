@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 import sys
 import os
 
+PY3 = sys.version_info.major >= 3
+
 try:
     _unichr = unichr
 except NameError:
@@ -31,8 +33,22 @@ def _get_unichr(s):
 def _read_unicode_data():
     global _folding_map
     map_path = os.path.join(os.path.dirname(__file__), MAP_FILE)
+    
+    # Open the official CaseFolding.txt file to read the folding map...
+    #  - Codecs.open would be nice, but I'm trying to limit imports here
+    #  - Although I can't find a reference for what encoding the Unicode
+    #     consortium uses (!!) in their text files, UTF8 is a reasonable guess
+    #     which works for the CaseFolding.txt file (where the only non-ascii
+    #     char is in the comments, anyway)
+    if PY3:
+        fp = open(map_path, "r", encoding = "utf-8")
+    else:
+        fp = open(map_path, "r")
+    
     with open(map_path, "r") as fp:
         for line in fp:
+            if not PY3:
+                line = line.decode("utf-8")
             if line.startswith("#") or (line.strip() == ""):
                 continue
             code, status, mapping, name = line.split("; ")
