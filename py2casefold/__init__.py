@@ -1,4 +1,16 @@
+from __future__ import unicode_literals
+import sys
 import os
+
+try:
+    _unichr = unichr
+except NameError:
+    _unichr = chr
+
+try:
+    _unicode_str = unicode
+except NameError:
+    _unicode_str = str
 
 MAP_FILE = "CaseFolding.txt"
 
@@ -8,7 +20,7 @@ def _get_unichr(s):
     """Returns the unicode char matching the provided hex string index (s)."""
     try:
         # go for the fastest method first...
-        return unichr(int(s, 16))
+        return _unichr(int(s, 16))
     except ValueError: # wide char!
         # The case folding data contains some wide chars that unichr does not
         # support when python is not compiled with wide character support (very
@@ -28,7 +40,7 @@ def _read_unicode_data():
             # Python 3.5.0 casefold uses full case folding (C and F), so we
             # will too. See https://goo.gl/Tq4ko7.
             if status in "CF":
-                out_chars = u"".join(_get_unichr(c) for c in mapping.split())
+                out_chars = "".join(_get_unichr(c) for c in mapping.split())
                 _folding_map[in_char] = out_chars
 
 
@@ -39,9 +51,9 @@ def casefold(u):
     concept.
     
     """
-    if not isinstance(u, unicode):
+    if not isinstance(u, _unicode_str):
         raise ValueError("u must be unicode")
-    return u"".join(_folding_map.get(c, c) for c in u)
+    return "".join(_folding_map.get(c, c) for c in u)
 
 # read/stash the folding map on import...
 _read_unicode_data()
