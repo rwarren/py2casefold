@@ -15,8 +15,15 @@ except NameError:
     _unicode_str = str
 
 MAP_FILE = "CaseFolding.txt"
-
+unicode_version = ""
 _folding_map = {}
+
+
+def set_unicode_version(first_line):
+    global unicode_version
+    unicode_version = first_line[first_line.find("-") + 1
+                                 :first_line.find(".txt")]
+
 
 def _get_unichr(s):
     """Returns the unicode char matching the provided hex string index (s)."""
@@ -44,20 +51,23 @@ def _read_unicode_data():
         fp = open(map_path, "r", encoding = "utf-8")
     else:
         fp = open(map_path, "r")
+    lines = fp.readlines()
+    fp.close()
+    # The Unicode version is on the first line of the file.
+    set_unicode_version(lines[0])
     
-    with open(map_path, "r") as fp:
-        for line in fp:
-            if not PY3:
-                line = line.decode("utf-8")
-            if line.startswith("#") or (line.strip() == ""):
-                continue
-            code, status, mapping, name = line.split("; ")
-            in_char = _get_unichr(code)
-            # Python 3.5.0 casefold uses full case folding (C and F), so we
-            # will too. See https://goo.gl/Tq4ko7.
-            if status in "CF":
-                out_chars = "".join(_get_unichr(c) for c in mapping.split())
-                _folding_map[in_char] = out_chars
+    for line in lines:
+        if not PY3:
+            line = line.decode("utf-8")
+        if line.startswith("#") or (line.strip() == ""):
+            continue
+        code, status, mapping, name = line.split("; ")
+        in_char = _get_unichr(code)
+        # Python 3.5.0 casefold uses full case folding (C and F), so we
+        # will too. See https://goo.gl/Tq4ko7.
+        if status in "CF":
+            out_chars = "".join(_get_unichr(c) for c in mapping.split())
+            _folding_map[in_char] = out_chars
 
 
 def casefold(u):
