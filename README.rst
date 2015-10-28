@@ -36,6 +36,16 @@ This can be improved later, but it is currently more than sufficient
 for basic case folding.  As a rough estimate, case folding 100
 characters clocks in at ~ 25us on an old developer laptop.
 
+Tests
+=====
+
+To run the tests on all supported Python version simple use tox.
+
+``tox``
+
+You will need to have Python 2.7, Python 3.4 and Python 3.5 installed.
+
+
 License
 =======
 BSD and the Unicode license agreement.  This module includes data from
