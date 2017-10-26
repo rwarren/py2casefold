@@ -4,9 +4,9 @@ import sys
 
 MAP_FILE = "CaseFolding.txt"
 _folding_map = {}
-PY3 = sys.version_info.major >= 3
+_PY3 = sys.version_info.major >= 3
 
-if PY3:
+if _PY3:
     unichr = chr
     unicode = str
 
@@ -38,8 +38,8 @@ def _read_unicode_data():
     #     consortium uses (!!) in their text files, UTF8 is a reasonable guess
     #     which works for the CaseFolding.txt file (where the only non-ascii
     #     char is in the comments, anyway)
-    if PY3:
-        fp = open(map_path, "r", encoding = "utf-8")
+    if _PY3:
+        fp = open(UNICODE_CASEFOLDING_FILE_PATH, "r", encoding = "utf-8")
     else:
         fp = open(map_path, "r")
     lines = fp.readlines()
@@ -48,7 +48,7 @@ def _read_unicode_data():
     set_unicode_version(lines[0])
 
     for line in lines:
-        if not PY3:
+        if not _PY3:
             line = line.decode("utf-8")
         if line.startswith("#") or (line.strip() == ""):
             continue
