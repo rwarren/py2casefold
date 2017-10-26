@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 import sys
 import unittest
-from py2casefold import casefold
+
+import py2casefold
+
+casefold = py2casefold.casefold # space saver
 
 class TestCasefold(unittest.TestCase):
     def test_basic(self):
@@ -41,7 +45,11 @@ class TestCasefold(unittest.TestCase):
             # always unicode!
             return
         else:
-            self.assertRaises(ValueError, casefold, *(str("foo"), )) 
+            self.assertRaises(ValueError, casefold, *(str("foo"), ))
+
+    def test_unicode_info(self):
+        self.assertEqual("10.0.0", py2casefold.UNICODE_VERSION)
+        self.assert_(os.path.exists(py2casefold.UNICODE_MAP_FILE))
 
 if __name__ == "__main__":
     unittest.main()

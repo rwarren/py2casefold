@@ -2,7 +2,10 @@ from __future__ import unicode_literals
 import os
 import sys
 
-MAP_FILE = "CaseFolding.txt"
+_this_dir = os.path.abspath(os.path.dirname(__file__))
+UNICODE_MAP_FILE = os.path.join(_this_dir, "CaseFolding.txt")
+UNICODE_VERSION = "<not loaded>"
+
 _folding_map = {}
 _PY3 = sys.version_info.major >= 3
 
@@ -12,8 +15,8 @@ if _PY3:
 
 
 def set_unicode_version(first_line):
-    global unicode_version
-    unicode_version = first_line[first_line.find("-") + 1
+    global UNICODE_VERSION
+    UNICODE_VERSION = first_line[first_line.find("-") + 1
                                  :first_line.find(".txt")]
 
 def _get_unichr(s):
@@ -30,7 +33,6 @@ def _get_unichr(s):
 
 def _read_unicode_data():
     global _folding_map
-    map_path = os.path.join(os.path.dirname(__file__), MAP_FILE)
 
     # Open the official CaseFolding.txt file to read the folding map...
     #  - Codecs.open would be nice, but I'm trying to limit imports here
@@ -39,9 +41,9 @@ def _read_unicode_data():
     #     which works for the CaseFolding.txt file (where the only non-ascii
     #     char is in the comments, anyway)
     if _PY3:
-        fp = open(UNICODE_CASEFOLDING_FILE_PATH, "r", encoding = "utf-8")
+        fp = open(UNICODE_MAP_FILE, "r", encoding = "utf-8")
     else:
-        fp = open(map_path, "r")
+        fp = open(UNICODE_MAP_FILE, "r")
     lines = fp.readlines()
     fp.close()
     # The Unicode version is on the first line of the file.
