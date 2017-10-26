@@ -69,7 +69,7 @@ def casefold(u):
 
     """
     if not isinstance(u, unicode):
-        raise ValueError("%s must be unicode" % u)
+        raise ValueError("The 'u' parameter must be unicode")
     return "".join(_folding_map.get(c, c) for c in u)
 
 # read/stash the folding map on import...
