@@ -1,8 +1,8 @@
 ``py2casefold``
 ===============
 
-.. image:: https://travis-ci.org/Siecje/py2casefold.svg?branch=master
-    :target: https://travis-ci.org/Siecje/py2casefold
+.. image:: https://travis-ci.org/rwarren/py2casefold.svg?branch=master
+    :target: https://travis-ci.org/rwarren/py2casefold
 
 Python 3 has ``str.casefold()``.  Python 2 doesn't.  ``py2casefold``
 brings casefolding support to Python 2.
