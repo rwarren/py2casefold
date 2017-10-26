@@ -1,6 +1,9 @@
 ``py2casefold``
 ===============
 
+.. image:: https://travis-ci.org/Siecje/py2casefold.svg?branch=master
+    :target: https://travis-ci.org/Siecje/py2casefold
+
 Python 3 has ``str.casefold()``.  Python 2 doesn't.  ``py2casefold``
 brings casefolding support to Python 2.
 
@@ -25,16 +28,26 @@ http://www.w3.org/TR/charmod-norm/.
 
 If you are looking for string similarity you will also probably want to
 consider one of the unicode normalization options (NFC, NFKC, NFD, NFKD)
-that are available with python's built in ``unicodedata.normalize()``.
+that are available with Python's built in ``unicodedata.normalize()``.
 
 Speed
 =====
 
-At the moment, this pure python ``casefold`` implementation is
-significantly (> 20X) slower than the optimized py3 C implementation.
+At the moment, this pure Python ``casefold`` implementation is
+significantly (> 20x) slower than the optimized py3 C implementation.
 This can be improved later, but it is currently more than sufficient
 for basic case folding.  As a rough estimate, case folding 100
-characters clocks in at ~ 25us on an old developer laptop.
+characters clocks in at ~25μs on an old developer laptop.
+
+Tests
+=====
+
+To run the tests on all supported Python version simple use tox.
+
+``tox``
+
+You will need to have Python 2.7, Python 3.4, Python 3.5 and Python 3.6 installed.
+
 
 License
 =======
